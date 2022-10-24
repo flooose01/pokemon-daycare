@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <script src="index.js" type="module"></script>
+    <title>Pokemon Day Care</title>
+  </head>
+  <body>
+    <!-- How About a Song? "Jubilife City" [Pokémon: X & Y] -->
+    <audio src="./sound/bg-music.mp3" loop></audio>
+    <!-- Image from flaticon.com -->
+    <img src="img/mute.png" alt="speaker" id="volume" class="mute">
+    <section id="selection">
+      <h1>WELCOME TO POKEMON DAY CARE</h1>
+      <p>
+        In this game, you play as the care taker of pokemons.
+        Feed your pokemons by clicking the food icon and
+        clicking your pokemon. Sweep their 💩 by clicking the broom icon
+        then clicking the 💩. Get money by taking care of them and
+        pay your mortgage !!!
+      </p>
+      <h2>Choose your starter pokemon!</h2>
+      <div id="starter"></div>
+    </section>
+    <section id="game-container" class="hidden">
+      <section id="controls">
+        <!-- https://pokemon.fandom.com/wiki/Payapa_Berry -->
+        <img src="img/food.png" alt="payapa berry" id="food">
+        <!-- Image from flaticon.com -->
+        <img src="img/broom.png" alt="broom" id="broom">
+      </section>
+      <section id="game"></section>
+
+    </section>
+
+
+  </body>
+</html>
