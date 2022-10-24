@@ -14,6 +14,7 @@ import Util from "./util.js";
     Util.id("volume").addEventListener("click", muteUnmute);
     loadStarters();
     window.requestAnimationFrame(loop);
+    console.log("test");
   }
 
   function update() {}
