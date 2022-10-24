@@ -5,7 +5,7 @@ import Util from "./util.js";
 (function () {
   let now,
     dt = 0,
-    last = Util.timestamp(),
+    last = timestamp(),
     step = 1 / 60;
 
   window.addEventListener("load", init);
@@ -14,7 +14,6 @@ import Util from "./util.js";
     Util.id("volume").addEventListener("click", muteUnmute);
     loadStarters();
     window.requestAnimationFrame(loop);
-    console.log("test");
   }
 
   function update() {}
@@ -26,7 +25,6 @@ import Util from "./util.js";
     let charmander = await Pokemon.make(4);
     let squirtle = await Pokemon.make(7);
     let starter = [bulbasaur, charmander, squirtle];
-    console.log(starter);
     for (let i = 0; i < starter.length; i++) {
       let img = Util.gen("img");
       img.src = starter[i].img;
@@ -36,6 +34,12 @@ import Util from "./util.js";
       });
       Util.id("starter").appendChild(img);
     }
+  }
+
+  function timestamp() {
+    return window.performance && window.performance.now
+      ? window.performance.now()
+      : new Date().getTime();
   }
 
   function muteUnmute() {
@@ -55,7 +59,7 @@ import Util from "./util.js";
   }
 
   function loop() {
-    now = Util.timestamp();
+    now = timestamp();
     dt = dt + Math.min(1, (now - last) / 1000);
     while (dt > step) {
       dt = dt - step;

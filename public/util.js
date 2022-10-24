@@ -13,12 +13,6 @@ export default class Util {
     return res;
   }
 
-  static timestamp() {
-    return window.performance && window.performance.now
-      ? window.performance.now()
-      : new Date().getTime();
-  }
-
   /**
    * Creates an HTML element based on given tag name
    * @param {string} tagName The tag name of the element to create
