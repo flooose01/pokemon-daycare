@@ -1,4 +1,10 @@
 export default class Util {
+  static timestamp() {
+    return window.performance && window.performance.now
+      ? window.performance.now()
+      : new Date().getTime();
+  }
+
   static async checkStatus(res) {
     if (!res.ok) {
       throw new Error(await res.text());

@@ -1,45 +1,46 @@
 "use strict";
 import Pokemon from "./pokemon.js";
 import Util from "./util.js";
+import PlayState from "./PlayState.js";
 
 (function () {
   let now,
     dt = 0,
-    last = timestamp(),
+    last = Util.timestamp(),
     step = 1 / 60;
 
   window.addEventListener("load", init);
 
-  function init() {
+  async function init() {
     Util.id("volume").addEventListener("click", muteUnmute);
-    loadStarters();
+    getStarter();
+  }
+
+  function start(starter) {
+    Util.id("selection").innerHTML = "";
+    Util.id("game-container").classList.remove("hidden");
+    PlayState.enter({ pokemons: [starter] });
     window.requestAnimationFrame(loop);
   }
 
-  function update() {}
-
-  function render() {}
-
-  async function loadStarters() {
-    let bulbasaur = await Pokemon.make(1);
-    let charmander = await Pokemon.make(4);
-    let squirtle = await Pokemon.make(7);
-    let starter = [bulbasaur, charmander, squirtle];
-    for (let i = 0; i < starter.length; i++) {
-      let img = Util.gen("img");
-      img.src = starter[i].img;
-      img.alt = starter[i].name;
-      img.addEventListener("click", () => {
-        startGame();
-      });
-      Util.id("starter").appendChild(img);
-    }
+  function update(dt) {
+    PlayState.update(dt);
   }
 
-  function timestamp() {
-    return window.performance && window.performance.now
-      ? window.performance.now()
-      : new Date().getTime();
+  function render(dt) {
+    PlayState.render(dt);
+  }
+
+  function loop() {
+    now = Util.timestamp();
+    dt = dt + Math.min(1, (now - last) / 1000);
+    while (dt > step) {
+      dt = dt - step;
+      update(step);
+    }
+    render(dt);
+    last = now;
+    window.requestAnimationFrame(loop);
   }
 
   function muteUnmute() {
@@ -58,15 +59,19 @@ import Util from "./util.js";
     }
   }
 
-  function loop() {
-    now = timestamp();
-    dt = dt + Math.min(1, (now - last) / 1000);
-    while (dt > step) {
-      dt = dt - step;
-      update(step);
+  async function getStarter() {
+    let bulbasaur = await Pokemon.make(1);
+    let charmander = await Pokemon.make(4);
+    let squirtle = await Pokemon.make(7);
+    let starters = [bulbasaur, charmander, squirtle];
+    for (let i = 0; i < starters.length; i++) {
+      let img = Util.gen("img");
+      img.src = starters[i].img;
+      img.alt = starters[i].name;
+      img.addEventListener("click", () => {
+        start(starters[i]);
+      });
+      Util.id("starter").appendChild(img);
     }
-    render(dt);
-    last = now;
-    window.requestAnimationFrame(loop);
   }
 })();
