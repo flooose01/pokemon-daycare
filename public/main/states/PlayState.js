@@ -1,5 +1,5 @@
-import Util from "./util.js";
-import { Tool } from "./constants.js";
+import Util from "../Util.js";
+import { Tool } from "../constants.js";
 
 export default class PlayState {
   static enter(def) {
@@ -11,7 +11,7 @@ export default class PlayState {
       this.tool = Tool.Broom;
       this.updateTool();
     });
-    this.tool = Tool.Broom;
+    this.tool = null;
     this.pokemons = def.pokemons;
   }
 
@@ -21,7 +21,11 @@ export default class PlayState {
     }
   }
 
-  static render(dt) {}
+  static render() {
+    for (let pokemon in this.pokemons) {
+      pokemon.render();
+    }
+  }
 
   static updateTool() {
     if (this.tool == Tool.Food) {

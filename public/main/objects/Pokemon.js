@@ -1,21 +1,21 @@
-import Util from "./util.js";
-import PlayState from "./PlayState.js";
-import { Tool } from "./constants.js";
+import Util from "../Util.js";
+import PlayState from "../states/PlayState.js";
+import { Tool } from "../constants.js";
 
 export default class Pokemon {
   constructor(pokemon) {
     this.id = pokemon.id; // id of pokemon in pokedex
     this.name = pokemon.species.name;
     this.hunger = 0; // hunger level, 100 = dead
-    this.exp = 0; // 500 -> 1st evolve, 2000 -> 2nd evolve
-    this.poo = 0; //
+    this.exp = 0; // TODO: decide threshold
+    this.poo = 0;
     this.img = pokemon.sprites.front_default;
     this.nextEvolve = 2;
     this.vx = 0;
     this.vy = 0;
-    this.position = (0, 0);
     this.talkTime = 0;
     this.block = this.generatePokemonBlock();
+    this.position = { x: 40, y: 40 }; // left upper corner
   }
 
   static dialogs = {
@@ -44,7 +44,20 @@ export default class Pokemon {
     this.renderPokemon();
   }
 
-  updatePosition() {}
+  updatePosition() {
+    if (
+      (this.position.x <= -5 && this.vx < 0) ||
+      (this.position.x >= 95 && this.vx > 0)
+    ) {
+      pokemon.sideConstant = -pokemon.sideConstant;
+      if (pokemon.sideConstant > 0) {
+        // Going right
+        qs("#pokemon-" + pokemon.id + " img").classList.add("right");
+      } else {
+        qs("#pokemon-" + pokemon.id + " img").classList.remove("right");
+      }
+    }
+  }
 
   renderPokemon() {}
 
