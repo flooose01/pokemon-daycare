@@ -9,7 +9,7 @@ export default class GameState {
 
   static change(state, def) {
     this.state = this.STATES[state];
-    this.state.enter(state, def);
+    this.state.enter(def);
   }
 
   static update(dt) {

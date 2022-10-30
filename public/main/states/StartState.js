@@ -13,16 +13,18 @@ export default class StartState {
   static render() {}
 
   static async getStarter() {
-    let bulbasaur = await Pokemon.make(1);
-    let charmander = await Pokemon.make(4);
-    let squirtle = await Pokemon.make(7);
+    let bulbasaur = await await Util.fetchURL(
+      "https://pokeapi.co/api/v2/pokemon/1"
+    );
+    let charmander = await Util.fetchURL("https://pokeapi.co/api/v2/pokemon/4");
+    let squirtle = await Util.fetchURL("https://pokeapi.co/api/v2/pokemon/7");
     let starters = [bulbasaur, charmander, squirtle];
     for (let i = 0; i < starters.length; i++) {
       let img = Util.gen("img");
-      img.src = starters[i].img;
-      img.alt = starters[i].name;
+      img.src = starters[i].sprites.front_default;
+      img.alt = starters[i].species.name;
       img.addEventListener("click", () => {
-        this.start(starters[i]);
+        this.start(3 * i + 1);
       });
       Util.id("starter").appendChild(img);
     }
@@ -44,9 +46,10 @@ export default class StartState {
     }
   }
 
-  static start(starter) {
+  static async start(starterID) {
     Util.id("selection").innerHTML = "";
     Util.id("game-container").classList.remove("hidden");
+    let starter = await Pokemon.make(starterID);
     GameState.change("play", { pokemons: [starter] });
   }
 }

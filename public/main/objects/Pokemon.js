@@ -1,6 +1,6 @@
 import Util from "../Util.js";
-import PlayState from "../states/PlayState.js";
-import { Tool } from "../constants.js";
+import { DIRECTION_CHANGE_TIME, Tool, VELOCITY } from "../constants.js";
+import GameState from "../GameState.js";
 
 export default class Pokemon {
   constructor(pokemon) {
@@ -11,8 +11,10 @@ export default class Pokemon {
     this.poo = 0;
     this.img = pokemon.sprites.front_default;
     this.nextEvolve = 2;
-    this.vx = 0;
-    this.vy = 0;
+    this.vx = VELOCITY;
+    this.vy = VELOCITY;
+    this.lastVerticalChange = 0;
+    this.lastHorizontalChange = 0;
     this.talkTime = 0;
     this.block = this.generatePokemonBlock();
     this.position = { x: 40, y: 40 }; // left upper corner
@@ -36,35 +38,61 @@ export default class Pokemon {
   }
 
   update(dt) {
-    this.updateTalking();
-    this.updatePosition();
+    // this.updateTalking();
+    this.updatePosition(dt);
   }
 
   render(dt) {
-    this.renderPokemon();
+    this.renderPokemon(dt);
   }
 
-  updatePosition() {
+  updatePosition(dt) {
+    this.lastVerticalChange += dt;
+    this.lastHorizontalChange += dt;
+    if (this.lastHorizontalChange - DIRECTION_CHANGE_TIME > 0) {
+      this.vx = Math.random() * (Math.round(Math.random()) * 2 - 1) * VELOCITY;
+      this.lastHorizontalChange = 0;
+    }
+    if (this.lastVerticalChange - DIRECTION_CHANGE_TIME > 0) {
+      this.vy = Math.random() * (Math.round(Math.random()) * 2 - 1) * VELOCITY;
+      this.lastVerticalChange = 0;
+    }
+
+    if (
+      (this.position.y <= -10 && this.vy < 0) ||
+      (this.position.y >= 90 && this.vy > 0)
+    ) {
+      this.vy = -this.vy;
+    }
+
     if (
       (this.position.x <= -5 && this.vx < 0) ||
       (this.position.x >= 95 && this.vx > 0)
     ) {
-      pokemon.sideConstant = -pokemon.sideConstant;
-      if (pokemon.sideConstant > 0) {
-        // Going right
-        qs("#pokemon-" + pokemon.id + " img").classList.add("right");
+      this.vx = -this.vx;
+      if (this.vx > 0) {
+        Util.qs("#pokemon-" + this.id + " img").classList.add("right");
       } else {
-        qs("#pokemon-" + pokemon.id + " img").classList.remove("right");
+        Util.qs("#pokemon-" + this.id + " img").classList.remove("right");
       }
     }
+
+    this.position.x += this.vx * dt;
+    this.position.y += this.vy * dt;
   }
 
-  renderPokemon() {}
+  renderPokemon() {
+    this.block.style.top = this.position.y + "%";
+    this.block.style.left = this.position.x + "%";
+  }
 
+  /**
+   * Generates html block of pokemon
+   * @returns
+   */
   generatePokemonBlock() {
     let dialog = Util.gen("p");
-    dialog.classList.add("dialog");
-    dialog.classList.add("hidden");
+    dialog.classList.add(...["dialog", "hidden"]);
 
     let img = Util.gen("img");
     img.src = this.img;
@@ -73,14 +101,14 @@ export default class Pokemon {
     let clickable = Util.gen("div");
     clickable.classList.add("clickable");
     clickable.addEventListener("click", () => {
-      if (PlayState.tool == Tool.Food) {
+      if (GameState.state.tool == Tool.Food) {
         if (!this.isHungry()) {
           this.talk("full");
         } else {
           this.feed();
           this.talk("feed");
         }
-      } else if ((PlayState.tool = Tool.Broom)) {
+      } else if (GameState.state.tool == Tool.Broom) {
         this.talk("sweep");
       }
     });
@@ -90,6 +118,7 @@ export default class Pokemon {
     block.appendChild(img);
     block.classList.add("block");
     block.id = "pokemon-" + this.id;
+    Util.id("game").appendChild(block);
     return block;
   }
 

@@ -16,14 +16,14 @@ export default class PlayState {
   }
 
   static update(dt) {
-    for (let pokemon in this.pokemons) {
-      pokemon.update(dt);
+    for (let i = 0; i < this.pokemons.length; i++) {
+      this.pokemons[i].update(dt);
     }
   }
 
   static render() {
-    for (let pokemon in this.pokemons) {
-      pokemon.render();
+    for (let i = 0; i < this.pokemons.length; i++) {
+      this.pokemons[i].render();
     }
   }
 
