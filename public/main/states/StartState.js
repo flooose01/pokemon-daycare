@@ -1,18 +1,18 @@
 import Util from "../Util.js";
-import GameState from "../GameState.js";
-import Pokemon from "../objects/Pokemon.js";
+import Pokemon from "../Pokemon.js";
+import { gStateMachine } from "../../index.js";
 
 export default class StartState {
-  static enter(def) {
+  enter(def) {
     Util.id("volume").addEventListener("click", this.muteUnmute);
     this.getStarter();
   }
 
-  static update(dt) {}
+  update(dt) {}
 
-  static render() {}
+  render() {}
 
-  static async getStarter() {
+  async getStarter() {
     let bulbasaur = await await Util.fetchURL(
       "https://pokeapi.co/api/v2/pokemon/1"
     );
@@ -30,7 +30,7 @@ export default class StartState {
     }
   }
 
-  static muteUnmute() {
+  muteUnmute() {
     let vol = Util.id("volume");
     let audio = Util.qs("audio");
     if (vol.classList.contains("mute")) {
@@ -46,10 +46,13 @@ export default class StartState {
     }
   }
 
-  static async start(starterID) {
+  async start(starterID) {
     Util.id("selection").innerHTML = "";
     Util.id("game-container").classList.remove("hidden");
     let starter = await Pokemon.make(starterID);
-    GameState.change("play", { pokemons: [starter] });
+    starter.changeState("idle", {});
+    gStateMachine.change("play", { pokemons: [starter] });
   }
+
+  exit() {}
 }

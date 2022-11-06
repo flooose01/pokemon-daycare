@@ -1,41 +1,41 @@
 import Util from "../Util.js";
-import { Tool } from "../constants.js";
+import { TOOL } from "../constants.js";
 
 export default class PlayState {
-  static enter(def) {
+  enter(def) {
     Util.id("food").addEventListener("click", () => {
-      this.tool = Tool.Food;
+      this.tool = TOOL.food;
       this.updateTool();
     });
     Util.id("broom").addEventListener("click", () => {
-      this.tool = Tool.Broom;
+      this.tool = TOOL.broom;
       this.updateTool();
     });
     this.tool = null;
     this.pokemons = def.pokemons;
   }
 
-  static update(dt) {
+  update(dt) {
     for (let i = 0; i < this.pokemons.length; i++) {
       this.pokemons[i].update(dt);
     }
   }
 
-  static render() {
+  render() {
     for (let i = 0; i < this.pokemons.length; i++) {
       this.pokemons[i].render();
     }
   }
 
-  static updateTool() {
-    if (this.tool == Tool.Food) {
+  updateTool() {
+    if (this.tool == TOOL.food) {
       Util.id("food").classList.add("selected");
       Util.id("broom").classList.remove("selected");
       let clickableBlocks = Util.qsa(".clickable");
       for (let i = 0; i < clickableBlocks.length; i++) {
         clickableBlocks[i].style.cursor = "url(img/food-cursor.png), auto";
       }
-    } else if (this.tool == Tool.Broom) {
+    } else if (this.tool == TOOL.broom) {
       Util.id("food").classList.remove("selected");
       Util.id("broom").classList.add("selected");
       let clickableBlocks = Util.qsa(".clickable");
@@ -44,4 +44,6 @@ export default class PlayState {
       }
     }
   }
+
+  exit() {}
 }

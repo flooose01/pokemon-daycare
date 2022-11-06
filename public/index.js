@@ -1,6 +1,13 @@
 "use strict";
 import Util from "./main/Util.js";
-import GameState from "./main/GameState.js";
+import StateMachine from "./main/StateMachine.js";
+import PlayState from "./main/states/PlayState.js";
+import StartState from "./main/states/StartState.js";
+
+export const gStateMachine = new StateMachine({
+  start: new StartState(),
+  play: new PlayState(),
+});
 
 (function () {
   let now,
@@ -11,18 +18,18 @@ import GameState from "./main/GameState.js";
   window.addEventListener("load", start);
 
   function start() {
-    GameState.change("start");
+    gStateMachine.change("start");
     window.requestAnimationFrame(loop);
   }
 
   // Update state, called every frame
   function update(dt) {
-    GameState.update(dt);
+    gStateMachine.update(dt);
   }
 
   // Render assets, called every frame
   function render() {
-    GameState.render();
+    gStateMachine.render();
   }
 
   function loop() {
