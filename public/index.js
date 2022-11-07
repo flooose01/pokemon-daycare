@@ -1,8 +1,8 @@
 "use strict";
 import Util from "./main/Util.js";
 import StateMachine from "./main/StateMachine.js";
-import PlayState from "./main/states/PlayState.js";
-import StartState from "./main/states/StartState.js";
+import PlayState from "./main/states/game/PlayState.js";
+import StartState from "./main/states/game/StartState.js";
 
 export const gStateMachine = new StateMachine({
   start: new StartState(),

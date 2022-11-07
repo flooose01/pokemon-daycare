@@ -4,11 +4,7 @@ import PokemonIdleState from "./states/entity/PokemonIdleState.js";
 import PokemonHungryState from "./states/entity/PokemonHungryState.js";
 import PokemonFullState from "./states/entity/PokemonFullState.js";
 import PokemonFeedState from "./states/entity/PokemonFeedState.js";
-import {
-  TALKING_COOLDOWN,
-  DIRECTION_CHANGE_TIME,
-  VELOCITY,
-} from "./constants.js";
+import { DIRECTION_CHANGE_TIME, VELOCITY } from "./constants.js";
 
 export default class Pokemon {
   constructor(pokemon) {

@@ -1,6 +1,6 @@
-import Util from "../Util.js";
-import Pokemon from "../Pokemon.js";
-import { gStateMachine } from "../../index.js";
+import Util from "../../Util.js";
+import Pokemon from "../../Pokemon.js";
+import { gStateMachine } from "../../../index.js";
 
 export default class StartState {
   enter(def) {

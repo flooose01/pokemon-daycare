@@ -112,3 +112,7 @@ body {
   height: 7vw;
   z-index: 99;
 }
+
+.hungry {
+  filter: grayscale(60%);
+}

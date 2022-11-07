@@ -1,6 +1,8 @@
 import { DIALOG, TOOL } from "../../constants.js";
 import { gStateMachine } from "../../../index.js";
 
+const TALK_TIME = 2;
+const COOLDOWN = 2;
 export default class PokemonIdleState {
   constructor(pokemon) {
     this.pokemon = pokemon;
@@ -9,8 +11,8 @@ export default class PokemonIdleState {
   static dialog = DIALOG.idle;
 
   enter(def) {
-    this.timer = 2;
-    this.cooldown = 1;
+    this.timer = TALK_TIME;
+    this.cooldown = COOLDOWN;
     this.isTalking = false;
     this.changeToFull = this.changeToFull.bind(this);
     this.pokemon.clickable.addEventListener("click", this.changeToFull);
@@ -38,7 +40,7 @@ export default class PokemonIdleState {
   }
 
   handleTalking(dt) {
-    if (this.isTalking && this.cooldown == 1) {
+    if (this.isTalking && this.cooldown == COOLDOWN) {
       // timer countdown
       this.timer -= dt;
       if (this.timer < 0) {
@@ -50,14 +52,14 @@ export default class PokemonIdleState {
       this.cooldown -= dt;
     } else if (!this.isTalking && this.cooldown <= 0) {
       // cooldown expire and start talking
-      this.cooldown = 1;
+      this.cooldown = COOLDOWN;
       let dialog = this.pokemon.dialog;
       dialog.textContent =
         PokemonIdleState.dialog[
           parseInt(Math.random() * PokemonIdleState.dialog.length)
         ];
       this.isTalking = true;
-      this.timer = 2;
+      this.timer = TALK_TIME;
     }
   }
 

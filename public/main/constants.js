@@ -5,10 +5,9 @@ export const TOOL = {
 
 export const VELOCITY = 2.5;
 export const DIRECTION_CHANGE_TIME = 5;
-export const TALKING_COOLDOWN = 1;
 export const DIALOG = {
-  feed: ["yummy", "nyam nyam"],
-  full: ["im full", "stop feeding me"],
-  hungry: ["feed me!", "FOOD!", "i demand my berry"],
-  idle: ["hi trainer", "nice day"],
+  feed: ["yummy", "nyam nyam", "mmmm", "good food"],
+  full: ["im full", "stop feeding me", "STAHP!", "no more pls"],
+  hungry: ["feed me!", "FOOD!", "i demand my BERRY", "NEED FOOD"],
+  idle: ["hi trainer", "nice day", "hello", "vibin'"],
 };

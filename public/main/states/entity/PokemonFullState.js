@@ -1,5 +1,6 @@
 import { DIALOG } from "../../constants.js";
 
+const TALK_TIME = 2;
 export default class PokemonFullState {
   constructor(pokemon) {
     this.pokemon = pokemon;
@@ -8,7 +9,7 @@ export default class PokemonFullState {
   static dialog = DIALOG.full;
 
   enter(def) {
-    this.timer = 2;
+    this.timer = TALK_TIME;
     this.isTalking = true;
     this.pokemon.dialog.textContent =
       PokemonFullState.dialog[
