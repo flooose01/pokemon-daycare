@@ -4,6 +4,7 @@ import PokemonIdleState from "./states/entity/PokemonIdleState.js";
 import PokemonHungryState from "./states/entity/PokemonHungryState.js";
 import PokemonFullState from "./states/entity/PokemonFullState.js";
 import PokemonFeedState from "./states/entity/PokemonFeedState.js";
+import PokemonSweepState from "./states/entity/PokemonSweepState.js";
 import { DIRECTION_CHANGE_TIME, VELOCITY } from "./constants.js";
 
 export default class Pokemon {
@@ -34,6 +35,7 @@ export default class Pokemon {
       idle: new PokemonIdleState(this),
       feed: new PokemonFeedState(this),
       full: new PokemonFullState(this),
+      sweep: new PokemonSweepState(this),
     });
   }
 

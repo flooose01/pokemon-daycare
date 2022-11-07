@@ -49,6 +49,8 @@ body {
   position: relative;
 }
 
+/* Controls */
+
 #volume {
   width: 4vw;
   margin: 1vw;

@@ -32,7 +32,6 @@ export default class PokemonHungryState {
   }
 
   exit() {
-    this.pokemon.img.classList.remove("hungry");
     this.pokemon.clickable.removeEventListener("click", this.changeToFeed);
   }
 
@@ -63,6 +62,8 @@ export default class PokemonHungryState {
   changeToFeed() {
     if (gStateMachine.state.tool == TOOL.food) {
       this.pokemon.changeState("feed");
+    } else if (gStateMachine.state.tool == TOOL.broom) {
+      this.pokemon.changeState("sweep", { prev: "hungry" });
     }
   }
 }

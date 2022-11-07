@@ -66,6 +66,8 @@ export default class PokemonIdleState {
   changeToFull() {
     if (gStateMachine.state.tool == TOOL.food) {
       this.pokemon.changeState("full");
+    } else if (gStateMachine.state.tool == TOOL.broom) {
+      this.pokemon.changeState("sweep", { prev: "idle" });
     }
   }
 }

@@ -1,22 +1,20 @@
 import { DIALOG } from "../../constants.js";
 
-const TALK_TIME = 2;
-export default class PokemonFeedState {
+const TALK_TIME = 0.5;
+export default class PokemonSweepState {
   constructor(pokemon) {
     this.pokemon = pokemon;
   }
 
-  static dialog = DIALOG.feed;
+  static dialog = DIALOG.sweep;
 
   enter(def) {
-    this.pokemon.img.classList.remove("hungry"); // Not hungry anymmore
-    this.pokemon.exp += 10;
-    this.pokemon.hunger = 0;
-    this.timer = TALK_TIME;
+    this.prev = def.prev;
+    this.timer = 1;
     this.isTalking = true;
     this.pokemon.dialog.textContent =
-      PokemonFeedState.dialog[
-        parseInt(Math.random() * PokemonFeedState.dialog.length)
+      PokemonSweepState.dialog[
+        parseInt(Math.random() * PokemonSweepState.dialog.length)
       ];
   }
 
@@ -25,7 +23,7 @@ export default class PokemonFeedState {
 
     if (this.timer < 0) {
       this.isTalking = false;
-      this.pokemon.changeState("idle");
+      this.pokemon.changeState(this.prev);
     }
   }
 

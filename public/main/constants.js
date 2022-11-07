@@ -10,4 +10,5 @@ export const DIALOG = {
   full: ["im full", "stop feeding me", "STAHP!", "no more pls"],
   hungry: ["feed me!", "FOOD!", "i demand my BERRY", "NEED FOOD"],
   idle: ["hi trainer", "nice day", "hello", "vibin'"],
+  sweep: ["rawr", "watch it!"],
 };
