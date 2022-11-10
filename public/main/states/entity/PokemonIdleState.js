@@ -1,4 +1,4 @@
-import { DIALOG, TOOL } from "../../constants.js";
+import { DIALOG, SOUNDS, TOOL } from "../../constants.js";
 import { gStateMachine } from "../../../index.js";
 
 const TALK_TIME = 2;

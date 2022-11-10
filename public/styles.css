@@ -59,10 +59,16 @@ body {
 }
 
 #food,
-#broom {
+#broom,
+#shop {
   width: 5vw;
   margin: 1vw;
   cursor: pointer;
+}
+
+#money {
+  font-size: 5vw;
+  margin: 1vw;
 }
 
 #volume {
@@ -73,6 +79,7 @@ body {
   position: absolute;
   z-index: 100;
   right: 0%;
+  display: flex;
 }
 
 .selected {
@@ -117,4 +124,23 @@ body {
 
 .hungry {
   filter: grayscale(60%);
+}
+
+.poo-block {
+  position: absolute;
+}
+
+.poo-block img {
+  width: 3vw;
+  height: 3vw;
+}
+
+.die {
+  animation: dead 2s;
+}
+
+@keyframes dead {
+  100% {
+    transform: rotate(90deg);
+  }
 }

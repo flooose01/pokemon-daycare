@@ -5,29 +5,35 @@ import PokemonHungryState from "./states/entity/PokemonHungryState.js";
 import PokemonFullState from "./states/entity/PokemonFullState.js";
 import PokemonFeedState from "./states/entity/PokemonFeedState.js";
 import PokemonSweepState from "./states/entity/PokemonSweepState.js";
-import { DIRECTION_CHANGE_TIME, VELOCITY } from "./constants.js";
+import { DIRECTION_CHANGE_TIME, VELOCITY, SOUNDS } from "./constants.js";
+import Poo from "./Poo.js";
 
 export default class Pokemon {
-  constructor(pokemon) {
+  constructor(def) {
     // Pokemon information
-    this.id = pokemon.id; // id of pokemon in pokedex
-    this.name = pokemon.species.name;
+    this.id = def.pokemon.id; // id of pokemon in pokedex
+    this.name = def.pokemon.species.name;
     this.nextEvolve = 2; // Evolve
 
     // Motion information
     this.vx = VELOCITY;
     this.vy = VELOCITY;
     this.lastMotionChange = 0;
-    this.position = { x: 40, y: 40 }; // left upper corner
+    this.position = { x: 40, y: 40 };
 
     // HTML information
     this.block, this.dialog, this.img, this.clickable;
-    this.generatePokemonBlock(pokemon.sprites.front_default);
+    this.generatePokemonBlock(def.pokemon.sprites.front_default);
 
     // Status information
     this.hunger = 0; // hunger level, 100 = dead
     this.exp = 0;
-    this.poo = 0;
+    this.pooTimer = 15;
+    this.dead = false;
+
+    // Reference to player and poos
+    this.player = def.player;
+    this.poos = def.poos;
 
     // This pokemon's state machine
     this.stateMachine = new StateMachine({
@@ -37,13 +43,6 @@ export default class Pokemon {
       full: new PokemonFullState(this),
       sweep: new PokemonSweepState(this),
     });
-  }
-
-  static async make(id) {
-    let pokemon = await Util.fetchURL(
-      "https://pokeapi.co/api/v2/pokemon/" + id
-    );
-    return new Pokemon(pokemon);
   }
 
   changeState(state, def) {
@@ -75,6 +74,16 @@ export default class Pokemon {
 
   update(dt) {
     this.hunger += dt;
+    this.pooTimer -= dt;
+    if (this.pooTimer < 0) {
+      let poo = new Poo({
+        player: this.player,
+        position: { ...this.position },
+      });
+      SOUNDS.fart.play();
+      this.poos.push(poo);
+      this.pooTimer = 15;
+    }
     this.updatePosition(dt);
     this.stateMachine.update(dt);
   }
@@ -104,8 +113,8 @@ export default class Pokemon {
     }
 
     if (
-      (this.position.x <= -5 && this.vx < 0) ||
-      (this.position.x >= 95 && this.vx > 0)
+      (this.position.x <= 0 && this.vx < 0) ||
+      (this.position.x >= 90 && this.vx > 0)
     ) {
       this.vx = -this.vx;
     }
@@ -127,6 +136,6 @@ export default class Pokemon {
   }
 
   isHungry() {
-    return this.hunger > 10;
+    return this.hunger > 15;
   }
 }

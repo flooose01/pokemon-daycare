@@ -1,3 +1,12 @@
+export const SOUNDS = {
+  fart: new Audio("../sound/fart.mp3"),
+  sweep: new Audio("../sound/sweep.mp3"),
+  eat: new Audio("../sound/eat.mp3"),
+  dead: new Audio("../sound/death.mp3"),
+};
+
+export const GEN_ONE = 151;
+
 export const TOOL = {
   broom: "Broom",
   food: "Food",

@@ -1,5 +1,4 @@
 import Util from "../../Util.js";
-import Pokemon from "../../Pokemon.js";
 import { gStateMachine } from "../../../index.js";
 
 export default class StartState {
@@ -13,9 +12,7 @@ export default class StartState {
   render() {}
 
   async getStarter() {
-    let bulbasaur = await await Util.fetchURL(
-      "https://pokeapi.co/api/v2/pokemon/1"
-    );
+    let bulbasaur = await Util.fetchURL("https://pokeapi.co/api/v2/pokemon/1");
     let charmander = await Util.fetchURL("https://pokeapi.co/api/v2/pokemon/4");
     let squirtle = await Util.fetchURL("https://pokeapi.co/api/v2/pokemon/7");
     let starters = [bulbasaur, charmander, squirtle];
@@ -46,12 +43,10 @@ export default class StartState {
     }
   }
 
-  async start(starterID) {
+  start(starterID) {
     Util.id("selection").innerHTML = "";
     Util.id("game-container").classList.remove("hidden");
-    let starter = await Pokemon.make(starterID);
-    starter.changeState("idle", {});
-    gStateMachine.change("play", { pokemons: [starter] });
+    gStateMachine.change("play", { starterID: starterID });
   }
 
   exit() {}

@@ -1,6 +1,8 @@
 import { DIALOG } from "../../constants.js";
 
 const TALK_TIME = 2;
+const FOOD_COST = 10;
+const EXP_PER_FOOD = 10;
 export default class PokemonFeedState {
   constructor(pokemon) {
     this.pokemon = pokemon;
@@ -9,8 +11,9 @@ export default class PokemonFeedState {
   static dialog = DIALOG.feed;
 
   enter(def) {
+    this.pokemon.player.money -= FOOD_COST;
     this.pokemon.img.classList.remove("hungry"); // Not hungry anymmore
-    this.pokemon.exp += 10;
+    this.pokemon.exp += EXP_PER_FOOD;
     this.pokemon.hunger = 0;
     this.timer = TALK_TIME;
     this.isTalking = true;
