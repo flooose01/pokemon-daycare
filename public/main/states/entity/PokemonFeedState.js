@@ -10,7 +10,7 @@ export default class PokemonFeedState {
 
   static dialog = DIALOG.feed;
 
-  enter(def) {
+  enter(params) {
     this.pokemon.player.money -= FOOD_COST;
     this.pokemon.img.classList.remove("hungry"); // Not hungry anymmore
     this.pokemon.exp += EXP_PER_FOOD;

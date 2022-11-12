@@ -11,7 +11,7 @@ export default class PokemonHungryState {
 
   static dialog = DIALOG.hungry;
 
-  enter(def) {
+  enter(params) {
     this.isDying = false;
     this.deadTimer = 2;
     this.timer = TALK_TIME;

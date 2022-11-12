@@ -6,6 +6,8 @@ export default class Player {
     this.block = Util.id("money");
   }
 
+  update(dt) {}
+
   render() {
     this.block.textContent = "$" + this.money;
   }

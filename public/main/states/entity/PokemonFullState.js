@@ -8,7 +8,7 @@ export default class PokemonFullState {
 
   static dialog = DIALOG.full;
 
-  enter(def) {
+  enter(params) {
     this.timer = TALK_TIME;
     this.isTalking = true;
     this.pokemon.dialog.textContent =

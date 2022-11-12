@@ -4,10 +4,12 @@ import StateMachine from "./main/StateMachine.js";
 import PlayState from "./main/states/game/PlayState.js";
 import StartState from "./main/states/game/StartState.js";
 import Pokemons from "./main/Pokemons.js";
+import ShopState from "./main/states/game/ShopState.js";
 
 export const gStateMachine = new StateMachine({
   start: new StartState(),
   play: new PlayState(),
+  shop: new ShopState(),
 });
 
 // Generate 151 gen 1 pokemons before use.

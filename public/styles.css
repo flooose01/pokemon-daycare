@@ -49,6 +49,10 @@ body {
   position: relative;
 }
 
+#shop-container {
+  display: flex;
+}
+
 /* Controls */
 
 #volume {

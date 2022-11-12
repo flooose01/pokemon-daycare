@@ -10,7 +10,7 @@ export default class PokemonIdleState {
 
   static dialog = DIALOG.idle;
 
-  enter(def) {
+  enter(params) {
     this.timer = TALK_TIME;
     this.cooldown = COOLDOWN;
     this.isTalking = false;

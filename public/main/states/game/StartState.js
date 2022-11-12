@@ -2,7 +2,7 @@ import Util from "../../Util.js";
 import { gStateMachine } from "../../../index.js";
 
 export default class StartState {
-  enter(def) {
+  enter(params) {
     Util.id("volume").addEventListener("click", this.muteUnmute);
     this.getStarter();
   }

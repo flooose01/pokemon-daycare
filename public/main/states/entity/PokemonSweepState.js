@@ -8,8 +8,8 @@ export default class PokemonSweepState {
 
   static dialog = DIALOG.sweep;
 
-  enter(def) {
-    this.prev = def.prev;
+  enter(params) {
+    this.prev = params.prev;
     this.timer = 1;
     this.isTalking = true;
     this.pokemon.dialog.textContent =
