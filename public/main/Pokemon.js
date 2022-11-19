@@ -4,26 +4,29 @@ import PokemonIdleState from "./states/entity/PokemonIdleState.js";
 import PokemonHungryState from "./states/entity/PokemonHungryState.js";
 import PokemonFullState from "./states/entity/PokemonFullState.js";
 import PokemonFeedState from "./states/entity/PokemonFeedState.js";
-import PokemonSweepState from "./states/entity/PokemonSweepState.js";
 import { DIRECTION_CHANGE_TIME, VELOCITY, SOUNDS } from "./constants.js";
 import Poo from "./Poo.js";
+import Pokemons from "./Pokemons.js";
 
 export default class Pokemon {
   constructor(def) {
     // Pokemon information
     this.id = def.pokemon.id; // id of pokemon in pokedex
     this.name = def.pokemon.species.name;
-    this.nextEvolve = 2; // Evolve
+    this.evolChain = def.pokemon.evolChain;
+    this.nextEvolve = 1; // Evolve
 
     // Motion information
-    this.vx = VELOCITY;
-    this.vy = VELOCITY;
+    this.vx = (Math.round(Math.random()) * 2 - 1) * VELOCITY;
+    this.vy = (Math.round(Math.random()) * 2 - 1) * VELOCITY;
     this.lastMotionChange = 0;
-    this.position = { x: 40, y: 40 };
+    this.position = { x: Math.random() * 95 - 10, y: Math.random() * 90 };
 
     // HTML information
     this.block, this.dialog, this.img, this.clickable;
     this.generatePokemonBlock(def.pokemon.sprites.front_default);
+    this.block.style.top = this.position.y + "%";
+    this.block.style.left = this.position.x + "%";
 
     // Status information
     this.hunger = 0; // hunger level, 100 = dead
@@ -41,8 +44,9 @@ export default class Pokemon {
       idle: new PokemonIdleState(this),
       feed: new PokemonFeedState(this),
       full: new PokemonFullState(this),
-      sweep: new PokemonSweepState(this),
     });
+
+    this.changeState("idle");
   }
 
   changeState(state, def) {
@@ -69,6 +73,7 @@ export default class Pokemon {
     block.classList.add("block");
     block.id = "pokemon-" + this.id;
     Util.id("game").appendChild(block);
+    clickable.style.cursor = "url(img/food-cursor.png), auto";
     this.block = block;
   }
 
@@ -86,6 +91,7 @@ export default class Pokemon {
     }
     this.updatePosition(dt);
     this.stateMachine.update(dt);
+    this.updateEvolve(dt);
   }
 
   render() {
@@ -94,6 +100,21 @@ export default class Pokemon {
   }
 
   /* UPDATES */
+
+  updateEvolve(dt) {
+    if (this.nextEvolve < this.evolChain.length) {
+      let nextPokemon = Pokemons.pokemons[this.evolChain[this.nextEvolve]];
+      if (this.nextEvolve == 1 && this.exp >= 50) {
+        this.img.src = nextPokemon.sprites.front_default;
+        this.name = nextPokemon.species.name;
+        this.nextEvolve += 1;
+      } else if (this.nextEvolve == 2 && this.exp >= 100) {
+        this.img.src = nextPokemon.sprites.front_default;
+        this.name = nextPokemon.species.name;
+        this.nextEvolve += 1;
+      }
+    }
+  }
 
   // Update position and motion of pokemon
   updatePosition(dt) {
@@ -107,7 +128,7 @@ export default class Pokemon {
     // Reverse velocity / direction
     if (
       (this.position.y <= -10 && this.vy < 0) ||
-      (this.position.y >= 90 && this.vy > 0)
+      (this.position.y >= 85 && this.vy > 0)
     ) {
       this.vy = -this.vy;
     }

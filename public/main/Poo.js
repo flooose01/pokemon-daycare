@@ -1,6 +1,5 @@
 import Util from "./Util.js";
-import { gStateMachine } from "../index.js";
-import { TOOL, SOUNDS } from "./constants.js";
+import { SOUNDS } from "./constants.js";
 
 export default class Poo {
   constructor(def) {
@@ -20,17 +19,16 @@ export default class Poo {
     img.src = "../img/poo.png";
     img.alt = "poo";
     block.addEventListener("click", () => {
-      if (gStateMachine.state.tool == TOOL.broom) {
-        SOUNDS.sweep.play();
-        block.remove();
-        this.player.money += 100;
-        this.expired = true;
-      }
+      SOUNDS.sweep.play();
+      block.remove();
+      this.player.money += 100;
+      this.expired = true;
     });
     img.classList.add("clickable");
     this.img = img;
     block.appendChild(img);
     Util.id("game").appendChild(block);
+    block.style.cursor = "url(img/broom-cursor.png), auto";
     this.block = block;
   }
 

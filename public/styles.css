@@ -8,6 +8,10 @@ body {
   font-family: "VT323", monospace;
 }
 
+hr {
+  margin: 0;
+}
+
 #selection {
   position: absolute;
   top: 50%;
@@ -17,12 +21,12 @@ body {
 }
 
 #selection h1 {
-  font-size: 4vw;
+  font-size: 5vw;
   color: blue;
 }
 
 #selection p {
-  font-size: 1.5vw;
+  font-size: 2vw;
 }
 
 #selection h2 {
@@ -49,8 +53,12 @@ body {
   position: relative;
 }
 
-#shop-container {
-  display: flex;
+.modal-backdrop {
+  background-color: gray;
+}
+
+.modal-content {
+  background-image: url("img/grass.jpg");
 }
 
 /* Controls */
@@ -62,16 +70,18 @@ body {
   z-index: 100;
 }
 
-#food,
-#broom,
 #shop {
-  width: 5vw;
+  height: fit-content;
   margin: 1vw;
+}
+
+#shop img {
+  width: 5vw;
   cursor: pointer;
 }
 
 #money {
-  font-size: 5vw;
+  font-size: 4vw;
   margin: 1vw;
 }
 
@@ -147,4 +157,22 @@ body {
   100% {
     transform: rotate(90deg);
   }
+}
+
+#staticBackdropLabel {
+  font-size: 1.8rem;
+}
+
+.card {
+  background-color: bisque;
+  cursor: pointer;
+}
+
+.card img {
+  width: 6rem;
+}
+
+.disabled {
+  pointer-events: none;
+  background-color: gray;
 }

@@ -1,25 +1,21 @@
-import Util from "../../Util.js";
-import { TOOL } from "../../constants.js";
 import Player from "../../Player.js";
 import Pokemon from "../../Pokemon.js";
-import { GEN_ONE_POKEMONS } from "../../../index.js";
 import StateMachine from "../../StateMachine.js";
 import ShopState from "./ShopState.js";
 import GameState from "./GameState.js";
+import Pokemons from "../../Pokemons.js";
 
 export default class PlayState {
   enter(params) {
     this.player = new Player();
-    this.tool = null;
     this.poos = [];
     let pokemon = new Pokemon({
-      pokemon: GEN_ONE_POKEMONS[params.starterID],
+      pokemon: Pokemons.pokemons[params.starterID],
       player: this.player,
       poos: this.poos,
     });
-    pokemon.changeState("idle");
     this.pokemons = [pokemon];
-
+    this.cards = Pokemons.cards;
     this.stateMachine = new StateMachine({
       shop: new ShopState(this),
       game: new GameState(this),

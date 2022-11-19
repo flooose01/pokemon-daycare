@@ -1,5 +1,4 @@
-import { DIALOG, SOUNDS, TOOL } from "../../constants.js";
-import { gStateMachine } from "../../../index.js";
+import { DIALOG, SOUNDS } from "../../constants.js";
 
 const TALK_TIME = 2;
 const COOLDOWN = 2;
@@ -64,10 +63,6 @@ export default class PokemonIdleState {
   }
 
   changeToFull() {
-    if (gStateMachine.state.tool == TOOL.food) {
-      this.pokemon.changeState("full");
-    } else if (gStateMachine.state.tool == TOOL.broom) {
-      this.pokemon.changeState("sweep", { prev: "idle" });
-    }
+    this.pokemon.changeState("full");
   }
 }

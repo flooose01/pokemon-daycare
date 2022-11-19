@@ -1,5 +1,4 @@
-import { DIALOG, SOUNDS, TOOL } from "../../constants.js";
-import { gStateMachine } from "../../../index.js";
+import { DIALOG, SOUNDS } from "../../constants.js";
 
 const TALK_TIME = 2;
 const COOLDOWN = 1;
@@ -81,11 +80,7 @@ export default class PokemonHungryState {
   }
 
   changeToFeed() {
-    if (gStateMachine.state.tool == TOOL.food) {
-      SOUNDS.eat.play();
-      this.pokemon.changeState("feed");
-    } else if (gStateMachine.state.tool == TOOL.broom) {
-      this.pokemon.changeState("sweep", { prev: "hungry" });
-    }
+    SOUNDS.eat.play();
+    this.pokemon.changeState("feed");
   }
 }
