@@ -24,6 +24,8 @@ export let GEN_ONE_POKEMONS = null;
   async function start() {
     await Pokemons.make();
     Pokemons.fillShop();
+    Util.id("loading").classList.add("hidden");
+    Util.id("selection").classList.remove("hidden");
     gStateMachine.change("start");
     window.requestAnimationFrame(loop);
   }
